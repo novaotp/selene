@@ -1,6 +1,6 @@
 {
     "name": "selene",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "type": "module",
     "scripts": {
         "dev": "vite dev",
@@ -37,6 +37,8 @@
         "vitest": "^2.0.4"
     },
     "dependencies": {
-        "pocketbase": "^0.22.1"
+        "clsx": "^2.1.1",
+        "pocketbase": "^0.22.1",
+        "tailwind-merge": "^2.5.5"
     }
 }

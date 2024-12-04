@@ -7,7 +7,8 @@ export default {
     kit: {
         adapter: adapter(),
         alias: {
-            $services: "./src/lib/services"
+            $services: "./src/lib/services",
+            $utils: "./src/lib/utils"
         }
     }
 };
