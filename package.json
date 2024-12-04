@@ -1,6 +1,6 @@
 {
     "name": "selene",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "type": "module",
     "scripts": {
         "dev": "vite dev",
@@ -11,7 +11,8 @@
         "format": "prettier --write .",
         "lint": "prettier --check . && eslint .",
         "test:unit": "vitest",
-        "test": "npm run test:unit -- --run"
+        "test": "npm run test:unit -- --run",
+        "db:dev": "cross-env ./pocketbase/pocketbase.exe --dev serve"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.3",
