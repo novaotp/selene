@@ -12,23 +12,31 @@ An extensive to-do list.
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository.
 
-   ```bash
-   git clone https://github.com/novaotp/selene
-   ```
+    ```bash
+    git clone https://github.com/novaotp/selene
+    ```
 
-1. Install the dependencies
+1. Install the dependencies.
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
-1. Run the development server
+1. Create a `.env` file based on `.env.example`.
 
-   ```bash
-   npm run dev -- --open
-   ```
+1. In one terminal, run the pocketbase instance.
+
+    ```bash
+    npm run db:dev
+    ```
+
+1. In another terminal, run the development server.
+
+    ```bash
+    npm run dev
+    ```
 
 ### Testing
 
