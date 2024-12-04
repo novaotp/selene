@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { Button } from "$ui/forms";
 </script>
 
@@ -16,5 +17,5 @@
         Selene makes it easy to manage your to-do list, so you can focus your time on what really
         matters.
     </p>
-    <Button>Get started</Button>
+    <Button onclick={() => goto("/register")}>Get started</Button>
 </main>

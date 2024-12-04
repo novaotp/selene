@@ -2,6 +2,20 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+    --color-header: hsl(0 0% 7% / 80%);
+    --color-body: hsl(0 0% 7% / 60%);
+    --color-disabled: hsl(0 0% 7% / 38%);
+    --background-color: hsl(0 0% 100%);
+}
+
+html.dark {
+    --color-header: hsl(0 0% 100% / 80%);
+    --color-body: hsl(0 0% 100% / 60%);
+    --color-disabled: hsl(0 0% 100% / 38%);
+    --background-color: hsl(0 0% 7%);
+}
+
 * {
     font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
@@ -15,16 +29,17 @@ body {
 
 html.dark,
 html.dark body {
-    color: hsl(0 0% 60%);
-    background-color: hsl(0 0% 7%);
+    color: var(--color-body);
+    background-color: var(--background-color);
 }
 
 html.dark h1,
 html.dark h2,
-html.dark h3 {
-    color: hsl(0 0% 100% / 80%);
+html.dark h3,
+html.dark label {
+    color: var(--color-header);
 }
 
 html.dark *:disabled {
-    color: hsl(0 0% 100% / 38%);
+    color: var(--color-disabled);
 }
