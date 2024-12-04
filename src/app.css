@@ -5,3 +5,19 @@
 * {
     font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
+
+html.dark,
+html.dark body {
+    color: hsl(0 0% 60%);
+    background-color: hsl(0 0% 7%);
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3 {
+    color: hsl(0 0% 100% / 80%);
+}
+
+html.dark *:disabled {
+    color: hsl(0 0% 100% / 38%);
+}
