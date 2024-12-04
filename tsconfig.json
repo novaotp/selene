@@ -9,10 +9,6 @@
         "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,
-        "moduleResolution": "bundler",
-        "paths": {
-            "$services/*": ["./src/lib/services/*"],
-            "$utils/*": ["./src/lib/utils/*"]
-        }
+        "moduleResolution": "bundler"
     }
 }
