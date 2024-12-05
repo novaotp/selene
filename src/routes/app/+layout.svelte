@@ -1,9 +1,26 @@
 <script lang="ts">
-    import { setUser } from '$contexts/user.svelte.js';
+    import { setUser, userFromRecord } from "$contexts/user.svelte.js";
+    import Welcome from "$lib/components/root/Welcome.svelte";
+    import { pb } from "$services/pocketbase";
+    import { onMount } from "svelte";
 
     let { children, data } = $props();
 
-    setUser(data.user)
+    const userContext = setUser(data.user);
+
+    onMount(() => {
+        const unsubscribe = pb.authStore.onChange((token, record) => {
+            userContext.user = userFromRecord(record!);
+        }, true);
+
+        return () => {
+            unsubscribe();
+        };
+    });
 </script>
 
 {@render children()}
+
+{#if userContext.user.name === ""}
+    <Welcome />
+{/if}

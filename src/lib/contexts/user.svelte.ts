@@ -1,12 +1,32 @@
 import type { User } from "$models";
+import type { RecordModel } from "pocketbase";
 import { getContext, setContext } from "svelte";
 
 const USER_KEY = Symbol("User");
 
-export const getUser = (): User => {
-    return getContext<User>(USER_KEY);
+export const userFromRecord = (record: RecordModel): User => {
+    return {
+        id: record.id,
+        name: record.name,
+        email: record.email,
+        created: new Date(record.created),
+        updated: new Date(record.updated),
+        avatar: record.avatar
+    } satisfies User;
 };
 
-export const setUser = (user: User): User => {
-    return setContext(USER_KEY, user);
+export const getUser = (): UserContext => {
+    return getContext<UserContext>(USER_KEY);
 };
+
+export const setUser = (user: User): UserContext => {
+    return setContext(USER_KEY, new UserContext(user));
+};
+
+class UserContext {
+    user = $state<User>({} as User);
+
+    constructor(user: User) {
+        this.user = user;
+    }
+}
