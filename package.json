@@ -37,6 +37,7 @@
         "vitest": "^2.0.4"
     },
     "dependencies": {
+        "@tabler/icons-svelte": "^3.24.0",
         "clsx": "^2.1.1",
         "pocketbase": "^0.22.1",
         "tailwind-merge": "^2.5.5"

@@ -1,7 +1,9 @@
 <script lang="ts">
-    import "../app.css";
+    import { ToastContainer } from "$ui/feedback";
+import "../app.css";
 
     let { children } = $props();
 </script>
 
+<ToastContainer />
 {@render children()}

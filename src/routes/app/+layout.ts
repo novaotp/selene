@@ -9,8 +9,6 @@ export const load: LayoutLoad = async ({ url }) => {
     url.pathname;
 
     const value = await authGuard(pb, (user) => {
-        console.log("Layout is running")
-
         return {
             user: {
                 id: user.id,
