@@ -1,6 +1,6 @@
 {
     "name": "selene",
-    "version": "0.1.1",
+    "version": "0.2.10",
     "type": "module",
     "scripts": {
         "dev": "vite dev",
@@ -11,14 +11,16 @@
         "format": "prettier --write .",
         "lint": "prettier --check . && eslint .",
         "test:unit": "vitest",
-        "test": "npm run test:unit -- --run"
+        "test": "npm run test:unit -- --run",
+        "db:dev": "cross-env ./pocketbase/pocketbase.exe --dev serve"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.3",
-        "@sveltejs/adapter-auto": "^3.0.0",
+        "@sveltejs/adapter-static": "^3.0.6",
         "@sveltejs/kit": "^2.9.0",
         "@sveltejs/vite-plugin-svelte": "^5.0.0",
         "autoprefixer": "^10.4.20",
+        "cross-env": "^7.0.3",
         "eslint": "^9.7.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-svelte": "^2.36.0",
@@ -33,5 +35,11 @@
         "typescript-eslint": "^8.0.0",
         "vite": "^6.0.0",
         "vitest": "^2.0.4"
+    },
+    "dependencies": {
+        "@tabler/icons-svelte": "^3.24.0",
+        "clsx": "^2.1.1",
+        "pocketbase": "^0.22.1",
+        "tailwind-merge": "^2.5.5"
     }
 }
