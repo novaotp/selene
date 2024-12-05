@@ -99,4 +99,5 @@
         </Label.Root>
         <Button type="submit">Register</Button>
     </form>
+    <a href="/login" class="text-sm text-sky-400">Already have an account ? Log in</a>
 </main>

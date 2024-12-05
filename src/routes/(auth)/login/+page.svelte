@@ -83,4 +83,5 @@
         </Label.Root>
         <Button type="submit" disabled={isLoading}>Log in</Button>
     </form>
+    <a href="/register" class="text-sm text-sky-400">Don't have an account ? Register</a>
 </main>
