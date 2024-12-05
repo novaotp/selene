@@ -1,10 +1,5 @@
 import { goto } from "$app/navigation";
-import PocketBase from "pocketbase";
-
-type AuthGuardCallbackReturnType<T> = T | void;
-type AuthGuardCallback<T> = () =>
-    | AuthGuardCallbackReturnType<T>
-    | Promise<AuthGuardCallbackReturnType<T>>;
+import PocketBase, { type RecordModel } from "pocketbase";
 
 /**
  * An auth guard to check if the user is authenticated and redirect to the login page if not.
@@ -14,13 +9,17 @@ type AuthGuardCallback<T> = () =>
  */
 export const authGuard = async <T>(
     client: PocketBase,
-    callback: AuthGuardCallback<T> = () => {}
+    callback?: (user: RecordModel) => T | Promise<T>
 ) => {
     if (!client.authStore.isValid) {
         const message = "Please log in first to access the app.";
-        goto(`/login?${encodeURIComponent(message)}`);
+        await goto(`/login?${encodeURIComponent(message)}`);
         return;
     }
 
-    return await callback();
+    if (!callback) {
+        return;
+    }
+
+    return await callback(client.authStore.record!);
 };
