@@ -1,6 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import { COLOR_MAP, ICON_MAP } from "./defaults";
+    import { cn } from "$utils/cn";
+    import { TEXT_COLOR_MAP, ICON_MAP, BG_COLOR_MAP } from "./defaults";
     import CloseIcon from "@tabler/icons-svelte/icons/x";
     import type { Snippet } from "svelte";
     import type { Toast } from "$stores/toast/index.svelte";
@@ -14,7 +15,6 @@
     let { children, ondismiss, type }: Props = $props();
 
     let Icon = $derived(ICON_MAP[type]);
-    let color = $derived(COLOR_MAP[type]);
 </script>
 
 <!--
@@ -27,10 +27,13 @@ Primarily used via the ToastManager (src/lib/stores/toast/index.svelte.js) API, 
 <div
     role="alert"
     transition:fade
-    class="relative flex items-center w-full gap-4 px-4 py-3 overflow-hidden bg-white border rounded-lg shadow-md border-zinc-200"
+    class={cn(
+        "relative flex items-center w-full gap-4 px-4 py-3 overflow-hidden border rounded-lg shadow-md",
+        "bg-white dark:bg-zinc-700 border-zinc-200 dark:border-zinc-600"
+    )}
 >
-    <div style="background-color: {color}" class="absolute top-0 left-0 w-1 h-full"></div>
-    <Icon style="color: {color}" class="min-h-6 min-w-6" />
+    <div class="absolute top-0 left-0 w-1 h-full {BG_COLOR_MAP[type]}"></div>
+    <Icon class="min-h-6 min-w-6 {TEXT_COLOR_MAP[type]}" />
     <p class="flex-grow text-sm">
         {@render children()}
     </p>

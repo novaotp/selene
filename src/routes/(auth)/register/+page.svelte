@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { pb } from "$services/pocketbase";
+    import { toastManager } from "$stores/toast/index.svelte";
     import { Button, Input, Label } from "$ui/forms";
     import { ClientResponseError } from "pocketbase";
     import type { EventHandler } from "svelte/elements";
@@ -12,7 +13,7 @@
 
     const handleError = (message: string) => {
         isLoading = false;
-        alert(message);
+        toastManager.error(message);
         password = "";
         confirmPassword = "";
     };
@@ -53,6 +54,7 @@
         }
 
         isLoading = false;
+        toastManager.success("Registered account successfully.");
         goto("/app");
     };
 </script>

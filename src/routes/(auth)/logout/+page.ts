@@ -6,5 +6,5 @@ export const load: PageLoad = () => {
     pb.authStore.clear();
 
     const message = "Logged out successfully";
-    goto(`/login?message=${encodeURIComponent(message)}`);
+    goto(`/login?message=${encodeURIComponent(message)}&success=true`);
 };

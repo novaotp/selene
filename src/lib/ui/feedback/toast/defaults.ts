@@ -10,8 +10,14 @@ export const ICON_MAP: Record<Toast["type"], ComponentType> = {
     error: IconExclamationCircleFilled
 };
 
-export const COLOR_MAP: Record<Toast["type"], string> = {
-    success: "#16a34a",
-    info: "#3b82f6",
-    error: "#ef4444"
+export const TEXT_COLOR_MAP: Record<Toast["type"], string> = {
+    success: "text-green-500 dark:text-green-400",
+    info: "text-blue-500 dark:text-sky-400",
+    error: "text-red-500 dark:text-red-400"
+};
+
+export const BG_COLOR_MAP: Record<Toast["type"], string> = {
+    success: "bg-green-500 dark:bg-green-400",
+    info: "bg-blue-500 dark:bg-sky-400",
+    error: "bg-red-500 dark:bg-red-400"
 };

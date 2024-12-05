@@ -13,7 +13,7 @@ export const authGuard = async <T>(
 ) => {
     if (!client.authStore.isValid) {
         const message = "Please log in first to access the app.";
-        await goto(`/login?${encodeURIComponent(message)}`);
+        await goto(`/login?${encodeURIComponent(message)}&error=true`);
         return;
     }
 
