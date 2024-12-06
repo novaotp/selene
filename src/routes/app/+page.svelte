@@ -3,7 +3,7 @@
     import { pb } from "$services/pocketbase.js";
     import { Button } from "$ui/forms";
     import IconPlus from "@tabler/icons-svelte/icons/plus";
-    import { Task } from "$models";
+    import { Task } from "$models/index.svelte.js";
     import { onMount } from "svelte";
     import TaskCard from "$components/home/TaskCard.svelte";
 
@@ -44,7 +44,7 @@
     {/if}
     <Button
         onclick={() => (showAddTaskModal = true)}
-        class="absolute bottom-5 right-5 grid aspect-square w-[50px] place-items-center p-0"
+        class="fixed bottom-5 right-5 grid aspect-square w-[50px] place-items-center p-0 shadow-lg"
     >
         <IconPlus />
     </Button>

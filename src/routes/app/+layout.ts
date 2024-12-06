@@ -1,7 +1,7 @@
 import { pb } from "$services/pocketbase";
 import { authGuard } from "$utils/auth";
 import type { LayoutLoad } from "./$types";
-import type { User } from "$models";
+import type { User } from "$models/index.svelte";
 import { error } from "@sveltejs/kit";
 
 export const load: LayoutLoad = async ({ url }) => {
@@ -18,7 +18,7 @@ export const load: LayoutLoad = async ({ url }) => {
                 created: new Date(user.created),
                 updated: new Date(user.updated)
             } satisfies User
-        }
+        };
     });
 
     if (!value) {
@@ -28,4 +28,4 @@ export const load: LayoutLoad = async ({ url }) => {
     return {
         user: value!.user
     };
-}
+};

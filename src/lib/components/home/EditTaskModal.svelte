@@ -4,21 +4,22 @@
     import { Button, Input, Label, Select } from "$ui/forms";
     import { flyAndScale } from "$utils/transitions/fly-and-scale";
     import type { EventHandler } from "svelte/elements";
-    import type { TaskPriority } from "$models/index.svelte";
+    import type { Task, TaskPriority } from "$models/index.svelte";
     import { toastManager } from "$stores/toast/index.svelte";
     import { pb } from "$services/pocketbase";
     import { ClientResponseError } from "pocketbase";
 
     interface Props {
         close: () => void;
+        task: Task;
     }
 
-    let { close }: Props = $props();
+    let { close, task }: Props = $props();
 
-    let title = $state("");
-    let description = $state("");
-    let dueDate = $state("");
-    let priority = $state<TaskPriority>("none");
+    let title = $state(task.title);
+    let description = $state(task.description);
+    let dueDate = $state(task.dueDate.toISOString().split("T")[0]);
+    let priority = $state<TaskPriority>(task.priority);
 
     const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
         event.preventDefault();
@@ -31,11 +32,11 @@
             title: title.trim(),
             description: description.trim(),
             dueDate,
-            priority: priority ?? "none"
+            priority
         };
 
         try {
-            await pb.collection("tasks").create(data);
+            await pb.collection("tasks").update(task.id, data);
         } catch (error) {
             console.error(error);
             const message =
@@ -61,7 +62,7 @@
     transition:flyAndScale={{ duration: prefersReducedMotion.current ? 0 : 150 }}
     class="fixed left-0 top-1/2 z-10 flex max-h-[80%] w-full -translate-y-1/2 flex-col gap-10 bg-zinc-900 p-5 shadow-2xl"
 >
-    <h2 class="text-xl font-semibold">Add a new task</h2>
+    <h2 class="text-xl font-semibold">Edit task</h2>
     <form {onsubmit} class="relative flex w-full flex-col gap-5">
         <Label.Root>
             <Label.Text for="title">Title</Label.Text>
@@ -96,6 +97,6 @@
                 <Select.Option value="urgent">Urgent</Select.Option>
             </Select.Root>
         </Label.Root>
-        <Button type="submit">Add task</Button>
+        <Button type="submit">Edit task</Button>
     </form>
 </article>

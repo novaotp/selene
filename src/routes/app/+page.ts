@@ -1,5 +1,5 @@
 import { pb } from "$services/pocketbase";
-import { Task } from "$models";
+import { Task } from "$models/index.svelte";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async () => {
@@ -7,6 +7,6 @@ export const load: PageLoad = async () => {
         tasks: await pb
             .collection("tasks")
             .getFullList({ sort: "-updated" })
-            .then((tasks) => tasks.map(Task.fromRecord))
+            .then((tasks) => tasks.map((t) => Task.fromRecord(t)))
     };
 };

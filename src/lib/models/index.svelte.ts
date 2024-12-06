@@ -14,19 +14,19 @@ export type User = {
 export type TaskPriority = "low" | "medium" | "high" | "urgent" | "none";
 
 export class Task {
-    public id: string;
-    public title: string;
-    public description: string;
-    public dueDate: Date;
-    public priority: TaskPriority;
-    public created: Date;
-    public updated: Date;
+    public id: string = $state("");
+    public title: string = $state("");
+    public description: string = $state("");
+    public dueDate: Date | undefined = $state(undefined);
+    public priority: TaskPriority = $state("none");
+    public created: Date = $state(new Date());
+    public updated: Date = $state(new Date());
 
     constructor(
         id: string,
         title: string,
         description: string,
-        dueDate: Date,
+        dueDate: Date | undefined,
         priority: TaskPriority,
         created: Date,
         updated: Date
@@ -44,7 +44,7 @@ export class Task {
         this.title = record.title;
         this.description = record.description;
         this.priority = record.priority as TaskPriority;
-        this.dueDate = new Date(record.dueDate);
+        this.dueDate = record.dueDate ? new Date(record.dueDate) : undefined;
         this.updated = new Date(record.updated);
     }
 
@@ -53,7 +53,7 @@ export class Task {
             record.id,
             record.title,
             record.description,
-            new Date(record.dueDate),
+            record.dueDate ? new Date(record.dueDate) : undefined,
             record.priority as TaskPriority,
             new Date(record.created),
             new Date(record.updated)
