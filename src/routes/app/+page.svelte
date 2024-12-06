@@ -1,10 +1,12 @@
 <script lang="ts">
+    import AddTaskModal from "$components/home/AddTaskModal.svelte";
     import { Skeleton } from "$ui/feedback";
-    import { Button, Select } from "$ui/forms";
-    import Option from "$ui/forms/select/Option.svelte";
+    import { Button } from "$ui/forms";
     import IconPlus from "@tabler/icons-svelte/icons/plus";
 
     let { data } = $props();
+
+    let showAddTaskModal = $state(false);
 </script>
 
 <svelte:head>
@@ -28,11 +30,14 @@
     {:catch error}
         <p>An error occurred : {error.message}</p>
     {/await}
-    <Button class="absolute bottom-5 right-5 grid aspect-square w-[50px] place-items-center p-0">
+    <Button
+        onclick={() => (showAddTaskModal = true)}
+        class="absolute bottom-5 right-5 grid aspect-square w-[50px] place-items-center p-0"
+    >
         <IconPlus />
     </Button>
-    <Select.Root>
-        <Select.Option>Option 1</Select.Option>
-        <Select.Option>Option 2</Select.Option>
-    </Select.Root>
 </main>
+
+{#if showAddTaskModal}
+    <AddTaskModal />
+{/if}

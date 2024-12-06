@@ -1,6 +1,6 @@
 <script lang="ts">
     import { setUser, userFromRecord } from "$contexts/user.svelte.js";
-    import Welcome from "$lib/components/root/Welcome.svelte";
+    import Welcome from "$components/root/Welcome.svelte";
     import { pb } from "$services/pocketbase";
     import { onMount } from "svelte";
 

@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { Input, Label } from "$ui/forms";
+    import { Input, Label, Select } from "$ui/forms";
+    import { flyAndScale } from "$utils/transitions/fly-and-scale";
 
     let title = $state("");
     let description = $state("");
     let dueDate = $state("");
 </script>
 
-<article class="relative flex max-h-[80%] w-full flex-col">
+<article transition:flyAndScale class="relative z-10 flex max-h-[80%] w-full flex-col bg-zinc-900">
     <form>
         <Label.Root>
             <Label.Text for="title">Title</Label.Text>
@@ -22,6 +23,12 @@
         </Label.Root>
         <Label.Root>
             <Label.Text for="priority">Priority</Label.Text>
+            <Select.Root>
+                <Select.Option selected disabled>Select a priority</Select.Option>
+                <Select.Option value="none">None</Select.Option>
+                <Select.Option value="low">Low</Select.Option>
+                <Select.Option value="medium">Medium</Select.Option>
+            </Select.Root>
         </Label.Root>
     </form>
 </article>
