@@ -9,7 +9,7 @@ export type User = {
     avatar: string;
 };
 
-type TaskPriority = "low" | "medium" | "high" | "urgent" | "none";
+export type TaskPriority = "low" | "medium" | "high" | "urgent" | "none";
 
 export type Task = {
     id: string;

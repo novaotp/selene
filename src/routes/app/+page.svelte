@@ -39,5 +39,5 @@
 </main>
 
 {#if showAddTaskModal}
-    <AddTaskModal />
+    <AddTaskModal close={() => (showAddTaskModal = false)} />
 {/if}

@@ -3,8 +3,10 @@
      * TODO : Make it more accessible
      */
 
-    import { cn } from "$utils/cn";
     import { onMount, type Snippet } from "svelte";
+    import { slide } from "svelte/transition";
+    import { cn } from "$utils/cn";
+    import { prefersReducedMotion } from "svelte/motion";
 
     interface Props {
         children?: Snippet;
@@ -24,14 +26,25 @@
         value = $bindable("")
     }: Props = $props();
 
-    let buttonNode = $state<HTMLButtonElement>();
-    let ulNode = $state<HTMLUListElement>();
+    let masterNode = $state<HTMLDivElement>();
+    let triggerButtonNode = $state<HTMLButtonElement>();
+    let hiddenOptionsDivNode = $state<HTMLDivElement>();
+    let optionsUListNode = $state<HTMLUListElement>();
 
     let textShown = $state("");
+    let screenHeight = $state(0);
+
+    const isBelowHalfScreen = (): boolean => {
+        if (!document.body || !masterNode) return false;
+
+        const masterTop = masterNode.getBoundingClientRect().top;
+
+        return masterTop > screenHeight / 2;
+    };
 
     onMount(() => {
         const onOutsideClick = (event: MouseEvent) => {
-            if (event.target === buttonNode) {
+            if (event.target === triggerButtonNode) {
                 isOpen = !isOpen;
                 return;
             }
@@ -43,7 +56,7 @@
             //     |-- button    <- target
             if (
                 !(target instanceof HTMLButtonElement) ||
-                target.parentElement?.parentElement !== ulNode ||
+                target.parentElement?.parentElement !== optionsUListNode ||
                 !target.hasAttribute("data-option-value")
             ) {
                 isOpen = false;
@@ -71,9 +84,9 @@
     });
 
     onMount(() => {
-        if (!ulNode) return;
+        if (!hiddenOptionsDivNode) return;
 
-        const selectedElement = Array.from(ulNode.children).find((child) => {
+        const selectedElement = Array.from(hiddenOptionsDivNode.children).find((child) => {
             return (
                 child.firstElementChild &&
                 child.firstElementChild.hasAttribute("data-option-selected")
@@ -87,6 +100,8 @@
         onchange(value);
     });
 </script>
+
+<svelte:window bind:innerHeight={screenHeight} />
 
 <!--
 @component
@@ -104,27 +119,41 @@ Example :
 ```
 -->
 
-<input {id} {name} {value} type="hidden" />
-<button
-    bind:this={buttonNode}
-    role="combobox"
-    tabindex="0"
-    aria-controls="listbox"
-    aria-expanded={isOpen}
-    class="relative h-[50px] w-full cursor-pointer rounded-full dark:bg-zinc-800"
-    data-select-value={value}
->
-    {textShown}
-</button>
-<ul
-    bind:this={ulNode}
-    role="listbox"
-    aria-expanded={isOpen}
-    class={cn(
-        "relative flex w-full flex-col divide-y overflow-hidden dark:divide-zinc-700",
-        isOpen ? "flex" : "hidden",
-        ulNode && ulNode.getElementsByTagName("*").length > 1 ? "rounded-3xl" : "rounded-full"
-    )}
->
-    {@render children?.()}
-</ul>
+<div bind:this={masterNode} class="relative w-full">
+    <input {id} {name} {value} type="hidden" />
+    <button
+        bind:this={triggerButtonNode}
+        role="combobox"
+        type="button"
+        tabindex="0"
+        aria-controls="listbox"
+        aria-expanded={isOpen}
+        class="relative h-[50px] w-full cursor-pointer rounded-full text-sm dark:bg-zinc-800"
+        data-select-value={value}
+    >
+        {textShown}
+    </button>
+    <div>
+        <div bind:this={hiddenOptionsDivNode} class="hidden">
+            <!-- Access the selected property's value. -->
+            {@render children?.()}
+        </div>
+        {#if isOpen}
+            <ul
+                bind:this={optionsUListNode}
+                transition:slide={{ duration: prefersReducedMotion.current ? 0 : 150 }}
+                role="listbox"
+                aria-expanded={isOpen}
+                class={cn(
+                    "absolute flex w-full overflow-hidden shadow-[0_0_4px_8px_rgb(0,0,0,0.1)]",
+                    optionsUListNode && optionsUListNode.getElementsByTagName("*").length > 1
+                        ? "rounded-3xl"
+                        : "rounded-full",
+                    isBelowHalfScreen() ? "bottom-[60px] flex-col-reverse" : "top-[60px] flex-col"
+                )}
+            >
+                {@render children?.()}
+            </ul>
+        {/if}
+    </div>
+</div>

@@ -24,6 +24,8 @@ You can disable it using `disabled`.
 
 Examples :
 ```svelte
+<Select.Option>Low</Select.Option>
+
 <Select.Option value="low">Low</Select.Option>
 
 <Select.Option value="low" selected>Low</Select.Option>
@@ -32,9 +34,10 @@ Examples :
 ```
 -->
 
-<li class="relative h-[50px] w-full">
+<li class="border-bottom relative h-[50px] w-full last:border-none dark:border-zinc-700">
     <button
         bind:this={buttonNode}
+        type="button"
         role="option"
         tabindex="0"
         data-option-value={value}
@@ -42,7 +45,7 @@ Examples :
         data-option-disabled={disabled}
         aria-selected={selected}
         class={cn(
-            "relative h-full w-full dark:bg-zinc-800",
+            "relative h-full w-full text-sm dark:bg-zinc-800",
             disabled ? "cursor-not-allowed dark:text-zinc-500" : ""
         )}
     >
