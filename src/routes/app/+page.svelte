@@ -5,6 +5,7 @@
     import IconPlus from "@tabler/icons-svelte/icons/plus";
     import { Task } from "$models";
     import { onMount } from "svelte";
+    import TaskCard from "$components/home/TaskCard.svelte";
 
     let { data } = $props();
 
@@ -35,9 +36,9 @@
     {#if tasks.length === 0}
         <p>You don't have any task.</p>
     {:else}
-        <ul>
+        <ul class="relative flex w-full flex-col gap-5">
             {#each tasks as task}
-                <li>{task.title}</li>
+                <TaskCard {task} />
             {/each}
         </ul>
     {/if}

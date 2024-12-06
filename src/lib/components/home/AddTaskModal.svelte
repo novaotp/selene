@@ -17,7 +17,7 @@
 
     let title = $state("");
     let description = $state("");
-    let dueDate = $state(new Date().toISOString().split("T")[0]);
+    let dueDate = $state("");
     let priority = $state<TaskPriority>("none");
 
     const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
@@ -55,7 +55,7 @@
 <div
     onclick={close}
     transition:fade={{ duration: prefersReducedMotion.current ? 0 : 150 }}
-    class="fixed left-0 top-0 h-full w-full bg-black/20"
+    class="fixed left-0 top-0 h-full w-full bg-black/50 backdrop-blur-[2px]"
 ></div>
 <article
     transition:flyAndScale={{ duration: prefersReducedMotion.current ? 0 : 150 }}
