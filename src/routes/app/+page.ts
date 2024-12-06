@@ -1,9 +1,12 @@
 import { pb } from "$services/pocketbase";
+import { Task } from "$models";
 import type { PageLoad } from "./$types";
-import type { Task } from "$models";
 
 export const load: PageLoad = async () => {
     return {
-        tasks: pb.collection("tasks").getFullList<Task>({ sort: "-updated" })
+        tasks: await pb
+            .collection("tasks")
+            .getFullList({ sort: "-updated" })
+            .then((tasks) => tasks.map(Task.fromRecord))
     };
 };
