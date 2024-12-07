@@ -1,8 +1,10 @@
+import { v4 } from "uuid";
+
 export type Toast = {
     id: string;
-    type: 'success' | 'info' | 'error';
+    type: "success" | "info" | "error";
     message: string;
-}
+};
 
 /**
  * The number of milliseconds after which the toast is automatically dismissed.
@@ -61,8 +63,8 @@ class ToastManager {
      * @returns The ID of the newly created toast.
      * @private
      */
-    private addToast(data: Omit<Toast, 'id'>): string {
-        const id = crypto.randomUUID();
+    private addToast(data: Omit<Toast, "id">): string {
+        const id = v4();
 
         this._toasts.push({ id, ...data });
 

@@ -1,6 +1,6 @@
 {
     "name": "selene",
-    "version": "0.3.11",
+    "version": "0.4.0",
     "type": "module",
     "scripts": {
         "dev": "vite dev",
@@ -19,6 +19,7 @@
         "@sveltejs/adapter-static": "^3.0.6",
         "@sveltejs/kit": "^2.9.0",
         "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "@types/uuid": "^10.0.0",
         "autoprefixer": "^10.4.20",
         "cross-env": "^7.0.3",
         "eslint": "^9.7.0",
@@ -40,6 +41,7 @@
         "@tabler/icons-svelte": "^3.24.0",
         "clsx": "^2.1.1",
         "pocketbase": "^0.22.1",
-        "tailwind-merge": "^2.5.5"
+        "tailwind-merge": "^2.5.5",
+        "uuid": "^11.0.3"
     }
 }
