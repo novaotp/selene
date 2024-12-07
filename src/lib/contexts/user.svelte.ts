@@ -1,4 +1,4 @@
-import type { User } from "$models";
+import type { User } from "$models/index.svelte";
 import type { RecordModel } from "pocketbase";
 import { getContext, setContext } from "svelte";
 
