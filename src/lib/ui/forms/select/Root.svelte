@@ -9,9 +9,10 @@
     import { prefersReducedMotion } from "svelte/motion";
 
     interface Props {
-        children?: Snippet;
         id?: string;
         isOpen?: boolean;
+        children?: Snippet;
+        class?: string;
         name?: string;
         onchange?: (value: string) => void;
         value?: string;
@@ -19,8 +20,9 @@
 
     let {
         id,
-        children,
         isOpen = $bindable(false),
+        children,
+        class: className = undefined,
         name,
         onchange = () => {},
         value = $bindable()
@@ -119,7 +121,7 @@ Example :
 ```
 -->
 
-<div bind:this={masterNode} class="relative w-full">
+<div bind:this={masterNode} class={cn("relative w-full", className)}>
     <input {id} {name} {value} type="hidden" />
     <button
         bind:this={triggerButtonNode}

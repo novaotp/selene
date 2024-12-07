@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { prefersReducedMotion } from "svelte/motion";
     import { fly } from "svelte/transition";
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
@@ -9,7 +10,6 @@
     import IconMenu from "@tabler/icons-svelte/icons/menu";
     import IconInbox from "@tabler/icons-svelte/icons/inbox";
     import type { ComponentType } from "svelte";
-    import { prefersReducedMotion } from "svelte/motion";
 
     type Link = {
         label: string;

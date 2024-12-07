@@ -16,6 +16,12 @@
 An avatar component with a fallback string.
 
 The fallback is used if the `src` is empty or `undefined`.
+
+If you want to edit the size of the avatar, change the width class.
+You should also probably change the size of the fallback text.
+```svelte
+<Avatar class="w-20" />
+```
 -->
 
 {#if src}
