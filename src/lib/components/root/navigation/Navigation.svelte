@@ -41,7 +41,13 @@
         transition:fly={{ x: -100, duration: 150 }}
         class="fixed left-0 top-0 z-10 flex h-full min-w-60 flex-col gap-10 bg-zinc-900 p-5"
     >
-        <button onclick={() => goto("/app/settings")} class="flex items-center gap-5">
+        <button
+            onclick={() => {
+                goto("/app/settings");
+                showMenu = false;
+            }}
+            class="flex items-center gap-5"
+        >
             <Avatar
                 src={userContext.user.avatar}
                 fallback={userContext.user.getInitials()}
