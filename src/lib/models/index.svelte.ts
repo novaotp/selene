@@ -1,15 +1,58 @@
 import type { RecordModel } from "pocketbase";
 
-export type User = {
-    id: string;
+export class User {
+    public id: string = $state("");
     /** Is empty if not set. */
-    name: string;
-    email: string;
-    created: Date;
-    updated: Date;
+    public name: string = $state("");
+    public email: string = $state("");
     /** Is empty if not set. */
-    avatar: string;
-};
+    public avatar: string = $state("");
+    public created: Date = $state(new Date());
+    public updated: Date = $state(new Date());
+
+    constructor(
+        id: string,
+        name: string,
+        email: string,
+        avatar: string,
+        created: Date,
+        updated: Date
+    ) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.avatar = avatar;
+        this.created = created;
+        this.updated = updated;
+    }
+
+    public getInitials(): string {
+        return this.name
+            .split(" ")
+            .slice(0, 2)
+            .map((word) => word[0])
+            .join("")
+            .toUpperCase();
+    }
+
+    public updateFromRecord(record: RecordModel): void {
+        this.name = record.name;
+        this.email = record.email;
+        this.avatar = record.avatar;
+        this.updated = new Date(record.updated);
+    }
+
+    public static fromRecord(record: RecordModel): User {
+        return new User(
+            record.id,
+            record.name,
+            record.email,
+            record.avatar,
+            new Date(record.created),
+            new Date(record.updated)
+        );
+    }
+}
 
 export type TaskPriority = "low" | "medium" | "high" | "urgent" | "none";
 
