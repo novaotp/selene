@@ -18,10 +18,6 @@
     };
 
     let showEditModal = $state(false);
-
-    $effect(() => {
-        console.log(task);
-    });
 </script>
 
 <button

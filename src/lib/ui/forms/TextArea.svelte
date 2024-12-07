@@ -17,6 +17,10 @@ A pre-styled textarea.
 
 <textarea
     bind:value
-    class={cn("relative h-40 w-full rounded-full px-5 text-sm dark:bg-zinc-800", className)}
+    aria-multiline="true"
+    class={cn(
+        "relative h-40 w-full resize-none rounded-2xl p-5 text-sm dark:bg-zinc-800",
+        className
+    )}
     {...restProps}
 ></textarea>

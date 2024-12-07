@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import { prefersReducedMotion } from "svelte/motion";
-    import { Button, Input, Label, Select } from "$ui/forms";
+    import { Button, Input, Label, Select, TextArea } from "$ui/forms";
     import { flyAndScale } from "$utils/transitions/fly-and-scale";
     import type { EventHandler } from "svelte/elements";
     import type { TaskPriority } from "$models/index.svelte";
@@ -20,10 +20,15 @@
     let dueDate = $state("");
     let priority = $state<TaskPriority>("none");
 
+    let isProcessing = $state(false);
+
     const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
         event.preventDefault();
 
+        isProcessing = true;
+
         if (title.trim() === "") {
+            isProcessing = false;
             return toastManager.info("Please enter a valid title.");
         }
 
@@ -38,6 +43,7 @@
             await pb.collection("tasks").create(data);
         } catch (error) {
             console.error(error);
+            isProcessing = false;
             const message =
                 error instanceof ClientResponseError
                     ? error.message
@@ -45,6 +51,7 @@
             return toastManager.error(message);
         }
 
+        isProcessing = false;
         toastManager.success("Task created successfully.");
         close();
     };
@@ -64,7 +71,7 @@
     <h2 class="text-xl font-semibold">Add a new task</h2>
     <form {onsubmit} class="relative flex w-full flex-col gap-5">
         <Label.Root>
-            <Label.Text for="title">Title</Label.Text>
+            <Label.Text for="title">Title *</Label.Text>
             <Input
                 id="title"
                 name="title"
@@ -75,7 +82,7 @@
         </Label.Root>
         <Label.Root>
             <Label.Text for="description">Description</Label.Text>
-            <Input
+            <TextArea
                 id="description"
                 name="description"
                 placeholder="Enter a description..."
@@ -96,6 +103,8 @@
                 <Select.Option value="urgent">Urgent</Select.Option>
             </Select.Root>
         </Label.Root>
-        <Button type="submit">Add task</Button>
+        <Button type="submit" disabled={title.trim() === ""}>
+            {isProcessing ? "Processing..." : "Save"}
+        </Button>
     </form>
 </article>

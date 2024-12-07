@@ -36,7 +36,7 @@
     {#if tasks.length === 0}
         <p>You don't have any task.</p>
     {:else}
-        <ul class="relative flex w-full flex-col gap-5">
+        <ul class="relative flex w-full flex-col gap-5 pb-[90px]">
             {#each tasks as task}
                 <TaskCard {task} />
             {/each}

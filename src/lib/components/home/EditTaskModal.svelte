@@ -1,13 +1,13 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import { prefersReducedMotion } from "svelte/motion";
-    import { Button, Input, Label, Select } from "$ui/forms";
+    import { ClientResponseError } from "pocketbase";
+    import { Button, Input, Label, Select, TextArea } from "$ui/forms";
     import { flyAndScale } from "$utils/transitions/fly-and-scale";
-    import type { EventHandler } from "svelte/elements";
-    import type { Task, TaskPriority } from "$models/index.svelte";
     import { toastManager } from "$stores/toast/index.svelte";
     import { pb } from "$services/pocketbase";
-    import { ClientResponseError } from "pocketbase";
+    import type { EventHandler } from "svelte/elements";
+    import type { Task, TaskPriority } from "$models/index.svelte";
 
     interface Props {
         close: () => void;
@@ -18,13 +18,31 @@
 
     let title = $state(task.title);
     let description = $state(task.description);
-    let dueDate = $state(task.dueDate.toISOString().split("T")[0]);
+    let dueDate = $state(task.dueDate ? task.dueDate.toISOString().split("T")[0] : undefined);
     let priority = $state<TaskPriority>(task.priority);
+
+    let isProcessing = $state(false);
+    let hasChanged = $derived.by(() => {
+        return (
+            title !== task.title ||
+            description !== task.description ||
+            dueDate !== task.dueDate?.toISOString().split("T")[0] ||
+            priority !== task.priority
+        );
+    });
 
     const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
         event.preventDefault();
 
+        isProcessing = true;
+
+        if (!hasChanged) {
+            isProcessing = false;
+            return toastManager.info("Change a field to update the task.");
+        }
+
         if (title.trim() === "") {
+            isProcessing = false;
             return toastManager.info("Please enter a valid title.");
         }
 
@@ -32,13 +50,14 @@
             title: title.trim(),
             description: description.trim(),
             dueDate,
-            priority
+            priority: priority ?? "none"
         };
 
         try {
             await pb.collection("tasks").update(task.id, data);
         } catch (error) {
             console.error(error);
+            isProcessing = false;
             const message =
                 error instanceof ClientResponseError
                     ? error.message
@@ -46,6 +65,7 @@
             return toastManager.error(message);
         }
 
+        isProcessing = false;
         toastManager.success("Task created successfully.");
         close();
     };
@@ -65,7 +85,7 @@
     <h2 class="text-xl font-semibold">Edit task</h2>
     <form {onsubmit} class="relative flex w-full flex-col gap-5">
         <Label.Root>
-            <Label.Text for="title">Title</Label.Text>
+            <Label.Text for="title">Title *</Label.Text>
             <Input
                 id="title"
                 name="title"
@@ -76,7 +96,7 @@
         </Label.Root>
         <Label.Root>
             <Label.Text for="description">Description</Label.Text>
-            <Input
+            <TextArea
                 id="description"
                 name="description"
                 placeholder="Enter a description..."
@@ -97,6 +117,8 @@
                 <Select.Option value="urgent">Urgent</Select.Option>
             </Select.Root>
         </Label.Root>
-        <Button type="submit">Edit task</Button>
+        <Button type="submit" disabled={!hasChanged}>
+            {isProcessing ? "Processing..." : "Update"}
+        </Button>
     </form>
 </article>

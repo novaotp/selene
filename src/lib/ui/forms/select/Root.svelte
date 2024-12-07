@@ -23,7 +23,7 @@
         isOpen = $bindable(false),
         name,
         onchange = () => {},
-        value = $bindable("")
+        value = $bindable()
     }: Props = $props();
 
     let masterNode = $state<HTMLDivElement>();
@@ -95,8 +95,8 @@
 
         if (!selectedElement) return;
 
-        value = selectedElement.getAttribute("data-option-value")!;
-        textShown = selectedElement.textContent!;
+        value = selectedElement.firstElementChild!.getAttribute("data-option-value")!;
+        textShown = selectedElement.firstElementChild!.textContent!;
         onchange(value);
     });
 </script>
@@ -128,6 +128,7 @@ Example :
         tabindex="0"
         aria-controls="listbox"
         aria-expanded={isOpen}
+        aria-haspopup="listbox"
         class="relative h-[50px] w-full cursor-pointer rounded-full text-sm dark:bg-zinc-800"
         data-select-value={value}
     >
