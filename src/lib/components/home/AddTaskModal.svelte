@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
-    import { prefersReducedMotion } from "svelte/motion";
-    import { Button, Input, Label, Select, TextArea } from "$ui/forms";
-    import { flyAndScale } from "$utils/transitions/fly-and-scale";
-    import type { EventHandler } from "svelte/elements";
-    import type { TaskPriority } from "$models/index.svelte";
+    import { ClientResponseError } from "pocketbase";
     import { toastManager } from "$stores/toast/index.svelte";
     import { pb } from "$services/pocketbase";
-    import { ClientResponseError } from "pocketbase";
+    import { Button, Input, Label, Select, TextArea } from "$ui/forms";
+    import { Backdrop, Modal } from "$ui/feedback";
+    import type { EventHandler } from "svelte/elements";
+    import type { TaskPriority } from "$models/index.svelte";
 
     interface Props {
         close: () => void;
@@ -24,6 +22,8 @@
 
     const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
         event.preventDefault();
+
+        if (isProcessing) return;
 
         isProcessing = true;
 
@@ -57,17 +57,8 @@
     };
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-    onclick={close}
-    transition:fade={{ duration: prefersReducedMotion.current ? 0 : 150 }}
-    class="fixed left-0 top-0 z-10 h-full w-full bg-black/50 backdrop-blur-[2px]"
-></div>
-<article
-    transition:flyAndScale={{ duration: prefersReducedMotion.current ? 0 : 150 }}
-    class="fixed left-0 top-1/2 z-10 flex max-h-[80%] w-full -translate-y-1/2 flex-col gap-10 bg-zinc-900 p-5 shadow-2xl"
->
+<Backdrop {close} />
+<Modal>
     <h2 class="text-xl font-semibold">Add a new task</h2>
     <form {onsubmit} class="relative flex w-full flex-col gap-5">
         <Label.Root>
@@ -107,4 +98,4 @@
             {isProcessing ? "Processing..." : "Save"}
         </Button>
     </form>
-</article>
+</Modal>

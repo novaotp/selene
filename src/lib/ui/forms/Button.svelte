@@ -30,7 +30,7 @@ A pre-styled button.
     {disabled}
     aria-disabled={disabled}
     class={cn(
-        "relative rounded-full px-6 py-[10px] dark:bg-sky-400 dark:text-zinc-800",
+        "relative rounded-2xl px-6 py-[10px] dark:bg-sky-400 dark:text-zinc-800",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className
     )}
