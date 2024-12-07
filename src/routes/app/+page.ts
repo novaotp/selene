@@ -6,7 +6,7 @@ export const load: PageLoad = async () => {
     return {
         tasks: await pb
             .collection("tasks")
-            .getFullList({ sort: "-updated" })
+            .getFullList({ sort: "-created" })
             .then((tasks) => tasks.map((t) => Task.fromRecord(t)))
     };
 };

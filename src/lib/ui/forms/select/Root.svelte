@@ -34,7 +34,7 @@
     let textShown = $state("");
     let screenHeight = $state(0);
 
-    const isBelowHalfScreen = (): boolean => {
+    const isBelowHalfOfScreen = (): boolean => {
         if (!document.body || !masterNode) return false;
 
         const masterTop = masterNode.getBoundingClientRect().top;
@@ -129,7 +129,7 @@ Example :
         aria-controls="listbox"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        class="relative h-[50px] w-full cursor-pointer rounded-full text-sm dark:bg-zinc-800"
+        class="relative h-[50px] w-full cursor-pointer rounded-2xl text-sm dark:bg-zinc-800"
         data-select-value={value}
     >
         {textShown}
@@ -146,11 +146,8 @@ Example :
                 role="listbox"
                 aria-expanded={isOpen}
                 class={cn(
-                    "absolute flex w-full overflow-hidden shadow-[0_0_4px_8px_rgb(0,0,0,0.1)]",
-                    optionsUListNode && optionsUListNode.getElementsByTagName("*").length > 1
-                        ? "rounded-3xl"
-                        : "rounded-full",
-                    isBelowHalfScreen() ? "bottom-[60px] flex-col-reverse" : "top-[60px] flex-col"
+                    "absolute flex w-full overflow-hidden rounded-2xl shadow-[0_0_4px_8px_rgb(0,0,0,0.1)]",
+                    isBelowHalfOfScreen() ? "bottom-[60px] flex-col-reverse" : "top-[60px] flex-col"
                 )}
             >
                 {@render children?.()}

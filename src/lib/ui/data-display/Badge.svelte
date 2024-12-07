@@ -17,6 +17,11 @@ A small badge with rounded corners.
 Change the color using the `className` property.
 -->
 
-<div class={cn("relative rounded-full px-3 py-1 text-sm", className)}>
+<div
+    class={cn(
+        "relative flex items-center justify-center rounded-lg px-3 py-[6px] text-xs",
+        className
+    )}
+>
     {@render children?.()}
 </div>

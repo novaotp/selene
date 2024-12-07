@@ -1,11 +1,11 @@
 <script lang="ts">
-    import AddTaskModal from "$components/home/AddTaskModal.svelte";
-    import { pb } from "$services/pocketbase.js";
-    import { Button } from "$ui/forms";
-    import IconPlus from "@tabler/icons-svelte/icons/plus";
-    import { Task } from "$models/index.svelte.js";
     import { onMount } from "svelte";
+    import { pb } from "$services/pocketbase.js";
+    import { Task } from "$models/index.svelte.js";
+    import { Button } from "$ui/forms";
+    import AddTaskModal from "$components/home/AddTaskModal.svelte";
     import TaskCard from "$components/home/TaskCard.svelte";
+    import IconPlus from "@tabler/icons-svelte/icons/plus";
 
     let { data } = $props();
 
@@ -22,7 +22,7 @@
                 tasks = tasks.filter((t) => t.id !== event.record.id);
             }
 
-            tasks = tasks.sort((a, b) => b.updated.getTime() - a.updated.getTime());
+            tasks = tasks.sort((a, b) => b.created.getTime() - a.created.getTime());
         });
     });
 </script>
@@ -36,7 +36,7 @@
     {#if tasks.length === 0}
         <p>You don't have any task.</p>
     {:else}
-        <ul class="relative flex w-full flex-col gap-5 pb-[90px]">
+        <ul class="relative flex w-full flex-col divide-y divide-zinc-700 pb-[90px]">
             {#each tasks as task}
                 <TaskCard {task} />
             {/each}

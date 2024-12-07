@@ -17,6 +17,6 @@ A pre-styled input.
 
 <input
     bind:value
-    class={cn("relative h-[50px] w-full rounded-full px-5 text-sm dark:bg-zinc-800", className)}
+    class={cn("relative h-[50px] w-full rounded-2xl px-5 text-sm dark:bg-zinc-800", className)}
     {...restProps}
 />

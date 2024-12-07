@@ -4,6 +4,8 @@
     import { pb } from "$services/pocketbase";
     import { Button, Input, Label, Select, TextArea } from "$ui/forms";
     import { Backdrop, Modal } from "$ui/feedback";
+    import IconX from "@tabler/icons-svelte/icons/x";
+    import IconDeviceFloppy from "@tabler/icons-svelte/icons/device-floppy";
     import type { EventHandler } from "svelte/elements";
     import type { TaskPriority } from "$models/index.svelte";
 
@@ -59,8 +61,24 @@
 
 <Backdrop {close} />
 <Modal>
-    <h2 class="text-xl font-semibold">Add a new task</h2>
-    <form {onsubmit} class="relative flex w-full flex-col gap-5">
+    <div class="relative flex w-full items-center justify-between">
+        <div class="flex items-center gap-5">
+            <Button onclick={close} class="grid h-10 place-items-center p-0 dark:bg-transparent">
+                <IconX class="size-5 text-white" />
+            </Button>
+            <h2 class="text-xl font-semibold">Add task</h2>
+        </div>
+        <Button
+            type="submit"
+            form="add-task-form"
+            onclick={close}
+            disabled={!title.trim() || isProcessing}
+            class="grid aspect-square h-10 place-items-center p-0"
+        >
+            <IconDeviceFloppy class="size-5" />
+        </Button>
+    </div>
+    <form id="add-task-form" {onsubmit} class="relative flex w-full flex-col gap-5">
         <Label.Root>
             <Label.Text for="title">Title *</Label.Text>
             <Input
@@ -94,8 +112,5 @@
                 <Select.Option value="urgent">Urgent</Select.Option>
             </Select.Root>
         </Label.Root>
-        <Button type="submit" disabled={title.trim() === ""}>
-            {isProcessing ? "Processing..." : "Save"}
-        </Button>
     </form>
 </Modal>

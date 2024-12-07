@@ -2,10 +2,12 @@
     import { ClientResponseError } from "pocketbase";
     import { pb } from "$services/pocketbase";
     import { toastManager } from "$stores/toast/index.svelte";
-    import IconTrash from "@tabler/icons-svelte/icons/trash";
     import DeleteTaskModal from "./DeleteTaskModal.svelte";
     import { Backdrop, Modal } from "$ui/feedback";
     import { Button, Input, Label, Select, TextArea } from "$ui/forms";
+    import IconX from "@tabler/icons-svelte/icons/x";
+    import IconDeviceFloppy from "@tabler/icons-svelte/icons/device-floppy";
+    import IconTrash from "@tabler/icons-svelte/icons/trash";
     import type { EventHandler } from "svelte/elements";
     import type { Task, TaskPriority } from "$models/index.svelte";
 
@@ -69,7 +71,6 @@
         }
 
         isProcessing = false;
-        toastManager.success("Task created successfully.");
         close();
     };
 </script>
@@ -77,15 +78,31 @@
 <Backdrop {close} />
 <Modal>
     <div class="relative flex w-full items-center justify-between">
-        <h2 class="text-xl font-semibold">Edit task</h2>
-        <Button
-            onclick={() => (showDeleteModal = true)}
-            class="grid aspect-square h-10 place-items-center p-0 dark:bg-red-500"
-        >
-            <IconTrash class="size-5 text-white" />
-        </Button>
+        <div class="flex items-center gap-5">
+            <Button onclick={close} class="grid h-10 place-items-center p-0 dark:bg-transparent">
+                <IconX class="size-5 text-white" />
+            </Button>
+            <h2 class="text-xl font-semibold">Edit task</h2>
+        </div>
+        <div class="flex items-center gap-5">
+            <Button
+                onclick={() => (showDeleteModal = true)}
+                class="grid aspect-square h-10 place-items-center p-0 dark:bg-red-500"
+            >
+                <IconTrash class="size-5 text-white" />
+            </Button>
+            <Button
+                type="submit"
+                form="edit-task-form"
+                onclick={close}
+                disabled={!hasChanged || isProcessing}
+                class="grid aspect-square h-10 place-items-center p-0"
+            >
+                <IconDeviceFloppy class="size-5" />
+            </Button>
+        </div>
     </div>
-    <form {onsubmit} class="relative flex w-full flex-col gap-5">
+    <form id="edit-task-form" {onsubmit} class="relative flex w-full flex-col gap-5">
         <Label.Root>
             <Label.Text for="title">Title *</Label.Text>
             <Input
@@ -119,9 +136,6 @@
                 <Select.Option value="urgent">Urgent</Select.Option>
             </Select.Root>
         </Label.Root>
-        <Button type="submit" disabled={!hasChanged}>
-            {isProcessing ? "Processing..." : "Update"}
-        </Button>
     </form>
 </Modal>
 
