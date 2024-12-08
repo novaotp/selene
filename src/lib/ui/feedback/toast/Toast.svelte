@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { prefersReducedMotion } from "svelte/motion";
     import { fade } from "svelte/transition";
     import { cn } from "$utils/cn";
     import { TEXT_COLOR_MAP, ICON_MAP, BG_COLOR_MAP } from "./defaults";
@@ -7,7 +8,7 @@
     import type { Toast } from "$stores/toast/index.svelte";
 
     interface Props {
-        type: Toast['type'];
+        type: Toast["type"];
         ondismiss: () => void;
         children: Snippet;
     }
@@ -26,18 +27,18 @@ Primarily used via the ToastManager (src/lib/stores/toast/index.svelte.js) API, 
 
 <div
     role="alert"
-    transition:fade
+    transition:fade={{ duration: prefersReducedMotion.current ? 0 : 150 }}
     class={cn(
-        "relative flex items-center w-full gap-4 px-4 py-3 overflow-hidden border rounded-lg shadow-md",
-        "bg-white dark:bg-zinc-700 border-zinc-200 dark:border-zinc-600"
+        "relative flex w-full items-center gap-4 overflow-hidden rounded-lg border px-4 py-3 shadow-md",
+        "border-zinc-200 bg-white dark:border-zinc-600 dark:bg-zinc-700"
     )}
 >
-    <div class="absolute top-0 left-0 w-1 h-full {BG_COLOR_MAP[type]}"></div>
+    <div class="absolute left-0 top-0 h-full w-1 {BG_COLOR_MAP[type]}"></div>
     <Icon class="min-h-6 min-w-6 {TEXT_COLOR_MAP[type]}" />
     <p class="flex-grow text-sm">
         {@render children()}
     </p>
-    <button class="bg-transparent border-none" onclick={ondismiss}>
+    <button class="border-none bg-transparent" onclick={ondismiss}>
         <CloseIcon class="size-6" />
     </button>
 </div>

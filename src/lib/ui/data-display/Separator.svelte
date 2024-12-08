@@ -13,7 +13,7 @@
     role="separator"
     aria-orientation={orientation}
     class={cn(
-        "relative bg-zinc-500",
+        "relative bg-zinc-700",
         orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
         className
     )}

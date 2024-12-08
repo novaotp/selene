@@ -1,19 +1,23 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import { pb } from "$services/pocketbase.js";
     import { Task } from "$models/index.svelte.js";
     import { Button } from "$ui/forms";
     import AddTaskModal from "$components/home/AddTaskModal.svelte";
     import TaskCard from "$components/home/TaskCard.svelte";
     import IconPlus from "@tabler/icons-svelte/icons/plus";
+    import type { UnsubscribeFunc } from "pocketbase";
+    import { PUBLIC_APP_NAME } from "$env/static/public";
 
     let { data } = $props();
 
     let tasks = $state<Task[]>(data.tasks);
     let showAddTaskModal = $state(false);
 
+    let taskUnsubscribe: UnsubscribeFunc;
+
     onMount(async () => {
-        await pb.collection("tasks").subscribe("*", (event) => {
+        taskUnsubscribe = await pb.collection("tasks").subscribe("*", (event) => {
             if (event.action === "create") {
                 tasks.push(Task.fromRecord(event.record));
             } else if (event.action === "update") {
@@ -25,18 +29,22 @@
             tasks = tasks.sort((a, b) => b.created.getTime() - a.created.getTime());
         });
     });
+
+    onDestroy(async () => {
+        await taskUnsubscribe();
+    });
 </script>
 
 <svelte:head>
-    <title>Home - Selene</title>
+    <title>Home - {PUBLIC_APP_NAME}</title>
 </svelte:head>
 
-<main class="relative flex h-full w-full flex-col gap-10 p-5">
+<main class="relative flex h-full w-full flex-col gap-5 p-5 pt-0">
     <h1>Inbox</h1>
     {#if tasks.length === 0}
         <p>You don't have any task.</p>
     {:else}
-        <ul class="relative flex w-full flex-col divide-y divide-zinc-700 pb-[90px]">
+        <ul class="relative flex w-full flex-col divide-y divide-zinc-700 pb-[50px]">
             {#each tasks as task}
                 <TaskCard {task} />
             {/each}

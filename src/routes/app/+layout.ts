@@ -1,31 +1,18 @@
+import { error } from "@sveltejs/kit";
 import { pb } from "$services/pocketbase";
+import { User } from "$models/index.svelte";
 import { authGuard } from "$utils/auth";
 import type { LayoutLoad } from "./$types";
-import type { User } from "$models/index.svelte";
-import { error } from "@sveltejs/kit";
 
 export const load: LayoutLoad = async ({ url }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     url.pathname;
 
-    const value = await authGuard(pb, (user) => {
-        return {
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                avatar: user.avatar,
-                created: new Date(user.created),
-                updated: new Date(user.updated)
-            } satisfies User
-        };
-    });
+    const user = await authGuard(pb, (user) => User.fromRecord(user));
 
-    if (!value) {
+    if (!user) {
         throw error(401, "Unauthorized action. Please log in to access the app.");
     }
 
-    return {
-        user: value!.user
-    };
+    return { user };
 };
