@@ -7,6 +7,7 @@
     import TaskCard from "$components/home/TaskCard.svelte";
     import IconPlus from "@tabler/icons-svelte/icons/plus";
     import type { UnsubscribeFunc } from "pocketbase";
+    import { PUBLIC_APP_NAME } from "$env/static/public";
 
     let { data } = $props();
 
@@ -35,7 +36,7 @@
 </script>
 
 <svelte:head>
-    <title>Home - Selene</title>
+    <title>Home - {PUBLIC_APP_NAME}</title>
 </svelte:head>
 
 <main class="relative flex h-full w-full flex-col gap-5 p-5 pt-0">

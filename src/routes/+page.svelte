@@ -1,10 +1,11 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { PUBLIC_APP_NAME } from "$env/static/public";
     import { Button } from "$ui/forms";
 </script>
 
 <svelte:head>
-    <title>Selene</title>
+    <title>{PUBLIC_APP_NAME}</title>
     <meta
         name="description"
         content="Selene makes it easy to manage your to-do list, so you can focus your time on what really matters."

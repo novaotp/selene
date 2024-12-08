@@ -7,6 +7,6 @@ export default defineConfig({
         include: ["src/**/*.{test,spec}.{js,ts}"]
     },
     optimizeDeps: {
-        exclude: ["pocketbase", "@tabler/icons-svelte", "tailwind-merge", "clsx"]
+        exclude: ["pocketbase", "@tabler/icons-svelte", "tailwind-merge", "clsx", "uuid", "devalue"]
     }
 });
