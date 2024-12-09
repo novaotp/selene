@@ -9,6 +9,7 @@
     import { Backdrop } from "$ui/feedback";
     import IconMenu from "@tabler/icons-svelte/icons/menu";
     import IconInbox from "@tabler/icons-svelte/icons/inbox";
+    import IconClock from "@tabler/icons-svelte/icons/clock";
     import type { ComponentType } from "svelte";
 
     type Link = {
@@ -23,9 +24,14 @@
 
     const links: Link[] = [
         {
-            label: "Inbox",
-            href: "/app",
+            label: "All",
+            href: "/app/all",
             Icon: IconInbox
+        },
+        {
+            label: "Today",
+            href: "/app",
+            Icon: IconClock
         }
     ];
 </script>
@@ -56,7 +62,7 @@
             />
             <span class="text-white">{userContext.user.name}</span>
         </button>
-        <menu>
+        <menu class="relative flex w-full flex-col gap-2">
             {#each links as { label, href, Icon }, i (i)}
                 {@render link({ label, href, Icon })}
             {/each}
