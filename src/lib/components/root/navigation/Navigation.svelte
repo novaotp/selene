@@ -46,7 +46,7 @@
     <Backdrop close={() => (showMenu = false)} />
     <article
         transition:fly={{ x: -100, duration: prefersReducedMotion.current ? 0 : 150 }}
-        class="fixed left-0 top-0 z-10 flex h-full min-w-60 flex-col gap-10 bg-zinc-900 p-5"
+        class="fixed left-0 top-0 z-10 flex h-full min-w-60 flex-col gap-10 bg-zinc-900 p-5 shadow-[0_0_4px_8px_rgba(0,0,0,0.1)]"
     >
         <button
             onclick={() => {
