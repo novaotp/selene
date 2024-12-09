@@ -1,7 +1,7 @@
-import { readFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
-export const getAppVersion = () => {
-    const path = fileURLToPath(new URL("../../../package.json", import.meta.url));
-    return JSON.parse(readFileSync(path, "utf8")).version as string;
-};
+const path = fileURLToPath(new URL("../../../package.json", import.meta.url));
+const pkg = JSON.parse(await readFile(path, "utf8"));
+
+export const getAppVersion = () => pkg.version as string;
