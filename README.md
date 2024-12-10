@@ -9,7 +9,6 @@ An extensive to-do list.
 ### Prerequisites
 
 - NodeJS v20.6.0+
-- Go v1.23+
 
 ### Installation
 
@@ -27,12 +26,7 @@ An extensive to-do list.
 
 1. Create a `.env` file based on `.env.example`.
 
-1. In one terminal, run the pocketbase instance.
-
-    ```bash
-    cd pocketbase;
-    go run . serve
-    ```
+1. To run the `pocketbase` instance, see [./pocketbase/README.md](./pocketbase/README.md).
 
 1. In another terminal, run the development server.
 
