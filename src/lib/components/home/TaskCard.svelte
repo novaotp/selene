@@ -10,6 +10,7 @@
     import IconFlag from "@tabler/icons-svelte/icons/flag";
     import IconPointFilled from "@tabler/icons-svelte/icons/point-filled";
     import type { Task } from "$models/index.svelte";
+    import { Badge } from "$ui/data-display";
 
     interface Props {
         task: Task;
@@ -67,10 +68,10 @@
                     {#if task.dueDate}
                         <IconPointFilled class="size-3" />
                     {/if}
-                    <div class="flex items-center gap-1 text-xs">
+                    <Badge class="flex items-center gap-1 text-xs">
                         <IconFlag class="size-5" />
                         <span>{task.priority.at(0)?.toUpperCase() + task.priority.slice(1)}</span>
-                    </div>
+                    </Badge>
                 {/if}
             </ul>
         {/if}

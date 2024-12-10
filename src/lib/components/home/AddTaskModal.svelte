@@ -5,6 +5,7 @@
     import { Backdrop, Modal } from "$ui/feedback";
     import IconX from "@tabler/icons-svelte/icons/x";
     import IconDeviceFloppy from "@tabler/icons-svelte/icons/device-floppy";
+    import IconPointFilled from "@tabler/icons-svelte/icons/point-filled";
     import type { EventHandler } from "svelte/elements";
     import type { TaskPriority } from "$models/index.svelte";
 
@@ -121,11 +122,26 @@
         <Label.Root>
             <Label.Text for="priority">Priority</Label.Text>
             <Select.Root id="priority" name="priority" bind:value={priority}>
-                <Select.Option value="none" selected>None</Select.Option>
-                <Select.Option value="low">Low</Select.Option>
-                <Select.Option value="medium">Medium</Select.Option>
-                <Select.Option value="high">High</Select.Option>
-                <Select.Option value="urgent">Urgent</Select.Option>
+                <Select.Option value="none" selected>
+                    <IconPointFilled class="size-7 text-white" />
+                    <span class="w-full">None</span>
+                </Select.Option>
+                <Select.Option value="low">
+                    <IconPointFilled class="size-7 text-green-500" />
+                    <span class="w-full">Low</span>
+                </Select.Option>
+                <Select.Option value="medium">
+                    <IconPointFilled class="size-7 text-indigo-500" />
+                    <span class="w-full">Medium</span>
+                </Select.Option>
+                <Select.Option value="high">
+                    <IconPointFilled class="size-7 text-yellow-500" />
+                    <span class="w-full">High</span>
+                </Select.Option>
+                <Select.Option value="urgent">
+                    <IconPointFilled class="size-7 text-red-500" />
+                    <span class="w-full">Urgent</span>
+                </Select.Option>
             </Select.Root>
         </Label.Root>
     </form>

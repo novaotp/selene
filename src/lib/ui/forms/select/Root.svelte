@@ -73,7 +73,7 @@
             }
 
             value = target.getAttribute("data-option-value")!;
-            textShown = target.textContent!;
+            textShown = target.innerHTML!;
             isOpen = false;
             onchange(value);
         };
@@ -98,7 +98,7 @@
         if (!selectedElement) return;
 
         value = selectedElement.firstElementChild!.getAttribute("data-option-value")!;
-        textShown = selectedElement.firstElementChild!.textContent!;
+        textShown = selectedElement.firstElementChild!.innerHTML!;
         onchange(value);
     });
 </script>
@@ -131,10 +131,10 @@ Example :
         aria-controls="listbox"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        class="relative h-[50px] w-full cursor-pointer rounded-2xl text-sm dark:bg-zinc-800"
         data-select-value={value}
+        class="relative flex h-[50px] w-full cursor-pointer items-center justify-between gap-5 rounded-2xl px-[18vw] text-sm dark:bg-zinc-800 [&_*]:pointer-events-none"
     >
-        {textShown}
+        {@html textShown}
     </button>
     <div>
         <div bind:this={hiddenOptionsDivNode} class="hidden">

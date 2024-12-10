@@ -4,12 +4,19 @@
 
     interface Props {
         children?: Snippet;
+        class?: string;
         disabled?: boolean;
         selected?: boolean;
         value?: string;
     }
 
-    let { children, disabled = false, selected = false, value = "" }: Props = $props();
+    let {
+        children,
+        class: className = undefined,
+        disabled = false,
+        selected = false,
+        value = ""
+    }: Props = $props();
 
     let buttonNode = $state<HTMLButtonElement>();
 </script>
@@ -45,8 +52,9 @@ Examples :
         data-option-disabled={disabled}
         aria-selected={selected}
         class={cn(
-            "relative h-full w-full text-sm dark:bg-zinc-800",
-            disabled ? "cursor-not-allowed dark:text-zinc-500" : ""
+            "relative flex h-full w-full items-center justify-between gap-5 px-[18vw] text-sm dark:bg-zinc-800",
+            disabled ? "cursor-not-allowed dark:text-zinc-500" : "",
+            className
         )}
     >
         {@render children?.()}
