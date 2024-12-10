@@ -9,6 +9,7 @@
     import { Backdrop } from "$ui/feedback";
     import IconMenu from "@tabler/icons-svelte/icons/menu";
     import IconInbox from "@tabler/icons-svelte/icons/inbox";
+    import IconClock from "@tabler/icons-svelte/icons/clock";
     import type { ComponentType } from "svelte";
 
     type Link = {
@@ -23,9 +24,14 @@
 
     const links: Link[] = [
         {
-            label: "Inbox",
-            href: "/app",
+            label: "All",
+            href: "/app/all",
             Icon: IconInbox
+        },
+        {
+            label: "Today",
+            href: "/app",
+            Icon: IconClock
         }
     ];
 </script>
@@ -40,7 +46,7 @@
     <Backdrop close={() => (showMenu = false)} />
     <article
         transition:fly={{ x: -100, duration: prefersReducedMotion.current ? 0 : 150 }}
-        class="fixed left-0 top-0 z-10 flex h-full min-w-60 flex-col gap-10 bg-zinc-900 p-5"
+        class="fixed left-0 top-0 z-10 flex h-full min-w-60 flex-col gap-10 bg-zinc-900 p-5 shadow-[0_0_4px_8px_rgba(0,0,0,0.1)]"
     >
         <button
             onclick={() => {
@@ -56,7 +62,7 @@
             />
             <span class="text-white">{userContext.user.name}</span>
         </button>
-        <menu>
+        <menu class="relative flex w-full flex-col gap-2">
             {#each links as { label, href, Icon }, i (i)}
                 {@render link({ label, href, Icon })}
             {/each}

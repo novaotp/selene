@@ -14,22 +14,12 @@
     let tasks = $state<Task[]>(data.tasks);
     let showAddTaskModal = $state(false);
 
-    const isSameDate = (d1: Date, d2: Date) => {
-        return (
-            d1.getFullYear() === d2.getFullYear() &&
-            d1.getMonth() === d2.getMonth() &&
-            d1.getDate() === d2.getDate()
-        );
-    };
-
     onMount(async () => {
         await pb.collection("tasks").subscribe("*", (event) => {
-            if (!isSameDate(new Date(event.record.dueDate), new Date())) return;
-
             if (event.action === "create") {
                 tasks.push(Task.fromRecord(event.record));
             } else if (event.action === "update") {
-                tasks.find((t) => t.id === event.record.id)?.updateFromRecord(event.record);
+                tasks.find((t) => t.id === event.record.id)!.updateFromRecord(event.record);
             } else if (event.action === "delete") {
                 tasks = tasks.filter((t) => t.id !== event.record.id);
             }
@@ -40,17 +30,15 @@
 </script>
 
 <svelte:head>
-    <title>Today - {PUBLIC_APP_NAME}</title>
+    <title>Home - {PUBLIC_APP_NAME}</title>
 </svelte:head>
 
 <main class="relative flex h-full w-full flex-col gap-5 p-5 pt-0">
-    <h1>Today</h1>
+    <h1>Inbox</h1>
     {#if tasks.length === 0}
         <div class="relative my-auto flex w-full flex-col items-center justify-center gap-10 pb-20">
             <IconChecklist class="size-20" />
-            <p class="text-center">
-                It looks like you have completed everything for today. Congrats !
-            </p>
+            <p class="text-center">It looks like you have completed everything. Congrats !</p>
             <p class="text-center text-xs">Or you haven't set any tasks...</p>
         </div>
     {:else}

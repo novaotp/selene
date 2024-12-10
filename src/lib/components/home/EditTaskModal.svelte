@@ -18,10 +18,15 @@
 
     let { close, task }: Props = $props();
 
-    let title = $state(task.title);
-    let description = $state(task.description);
-    let dueDate = $state(task.dueDate ? task.dueDate.toISOString().split("T")[0] : undefined);
-    let priority = $state<TaskPriority>(task.priority);
+    let title = $state(task.title ?? "");
+    let description = $state(task.description ?? "");
+    let dueDate = $state(task.dueDate ? task.dueDate.toISOString().split("T")[0] : "");
+    let dueTime = $state(
+        task.dueDate
+            ? task.dueDate.toISOString().split("T")[1].split(":").slice(0, 2).join(":")
+            : ""
+    );
+    let priority = $state<TaskPriority>(task.priority ?? "none");
 
     let showDeleteModal = $state(false);
     let isProcessing = $state(false);
@@ -30,6 +35,7 @@
             title !== task.title ||
             description !== task.description ||
             dueDate !== task.dueDate?.toISOString().split("T")[0] ||
+            dueTime !== task.dueDate?.toISOString().split("T")[1] ||
             priority !== task.priority
         );
     });
@@ -51,10 +57,22 @@
             return toastManager.info("Please enter a valid title.");
         }
 
+        if (dueTime && dueDate === "") {
+            isProcessing = false;
+            return toastManager.info("Please enter a due date if you want to set a due time.");
+        }
+
+        const finalDueDate = new Date(dueDate);
+
+        if (dueTime) {
+            const [hours, minutes] = dueTime.split(":");
+            finalDueDate.setUTCHours(Number(hours), Number(minutes));
+        }
+
         const data = {
             title: title.trim(),
             description: description.trim(),
-            dueDate,
+            dueDate: finalDueDate,
             priority: priority ?? "none"
         };
 
@@ -63,11 +81,9 @@
         } catch (error) {
             console.error(error);
             isProcessing = false;
-            const message =
-                error instanceof ClientResponseError
-                    ? error.message
-                    : "Something went wrong. Please try again later.";
-            return toastManager.error(message);
+            return toastManager.error(
+                (error as Error).message ?? "Something went wrong. Please try again later."
+            );
         }
 
         isProcessing = false;
@@ -94,7 +110,6 @@
             <Button
                 type="submit"
                 form="edit-task-form"
-                onclick={close}
                 disabled={!hasChanged || isProcessing}
                 class="grid aspect-square h-10 place-items-center p-0"
             >
@@ -122,10 +137,16 @@
                 bind:value={description}
             />
         </Label.Root>
-        <Label.Root>
-            <Label.Text for="deadline">Due Date</Label.Text>
-            <Input id="dueDate" name="dueDate" type="date" bind:value={dueDate} />
-        </Label.Root>
+        <div class="relative flex w-full gap-5">
+            <Label.Root>
+                <Label.Text for="dueDate">Due Date</Label.Text>
+                <Input id="dueDate" name="dueDate" type="date" bind:value={dueDate} />
+            </Label.Root>
+            <Label.Root>
+                <Label.Text for="dueTime">Due Time</Label.Text>
+                <Input id="dueTime" name="dueTime" type="time" bind:value={dueTime} />
+            </Label.Root>
+        </div>
         <Label.Root>
             <Label.Text for="priority">Priority</Label.Text>
             <Select.Root id="priority" name="priority" bind:value={priority}>

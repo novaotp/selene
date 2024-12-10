@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
     import { pb } from "$services/pocketbase";
     import { setUser } from "$contexts/user.svelte.js";
     import Welcome from "$components/root/Welcome.svelte";
@@ -11,7 +12,10 @@
 
     onMount(() => {
         const unsubscribe = pb.authStore.onChange((token, record) => {
-            if (!record) return;
+            // The user disconnected
+            if (!record) {
+                return goto("/login");
+            }
 
             userContext.user.updateFromRecord(record);
         }, true);

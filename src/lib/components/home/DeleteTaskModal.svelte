@@ -26,11 +26,9 @@
         } catch (error) {
             console.error(error);
             isProcessing = false;
-            const message =
-                error instanceof ClientResponseError
-                    ? error.message
-                    : "Something went wrong. Please try again later.";
-            return toastManager.error(message);
+            return toastManager.error(
+                (error as Error).message ?? "Something went wrong. Please try again later."
+            );
         }
 
         isProcessing = false;
