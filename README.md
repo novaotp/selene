@@ -8,7 +8,8 @@ An extensive to-do list.
 
 ### Prerequisites
 
-- NodeJS v20.6.0
+- NodeJS v20.6.0+
+- Go v1.23+
 
 ### Installation
 
@@ -29,7 +30,8 @@ An extensive to-do list.
 1. In one terminal, run the pocketbase instance.
 
     ```bash
-    npm run db:dev
+    cd pocketbase;
+    go run . serve
     ```
 
 1. In another terminal, run the development server.
