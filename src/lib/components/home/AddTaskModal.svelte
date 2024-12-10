@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { toastManager } from "$stores/toast/index.svelte";
     import { pb } from "$services/pocketbase";
+    import { toastManager } from "$stores/toast/index.svelte";
     import { Button, Input, Label, Select, TextArea } from "$ui/forms";
     import { Backdrop, Modal } from "$ui/feedback";
+    import RemindersHandler from "./RemindersHandler.svelte";
     import IconX from "@tabler/icons-svelte/icons/x";
     import IconDeviceFloppy from "@tabler/icons-svelte/icons/device-floppy";
     import IconPointFilled from "@tabler/icons-svelte/icons/point-filled";
     import type { EventHandler } from "svelte/elements";
-    import type { TaskPriority } from "$models/index.svelte";
+    import type { Reminder, TaskPriority } from "$models/index.svelte";
 
     interface Props {
         close: () => void;
@@ -20,13 +21,12 @@
     let dueDate = $state("");
     let dueTime = $state("");
     let priority = $state<TaskPriority>("none");
+    let reminders = $state<Reminder[]>([]);
 
     let isProcessing = $state(false);
 
     const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
         event.preventDefault();
-
-        console.log("hit");
 
         if (isProcessing) return;
 
@@ -144,5 +144,6 @@
                 </Select.Option>
             </Select.Root>
         </Label.Root>
+        <RemindersHandler bind:reminders />
     </form>
 </Modal>

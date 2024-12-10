@@ -54,6 +54,13 @@ export class User {
     }
 }
 
+export type Reminder = {
+    id: string;
+    type: "notification" | "email";
+    value: number;
+    unit: "minutes" | "hours" | "days" | "weeks";
+};
+
 export type TaskPriority = "low" | "medium" | "high" | "urgent" | "none";
 
 export class Task {
@@ -63,6 +70,7 @@ export class Task {
     public isCompleted: boolean = $state(false);
     public dueDate: Date | undefined = $state(undefined);
     public priority: TaskPriority = $state("none");
+    public reminders: Reminder[] = $state([]);
     public created: Date = $state(new Date());
     public updated: Date = $state(new Date());
 
@@ -73,6 +81,7 @@ export class Task {
         isCompleted: boolean,
         dueDate: Date | undefined,
         priority: TaskPriority,
+        reminders: Reminder[],
         created: Date,
         updated: Date
     ) {
@@ -82,6 +91,7 @@ export class Task {
         this.isCompleted = isCompleted;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.reminders = reminders;
         this.created = created;
         this.updated = updated;
     }
@@ -92,6 +102,7 @@ export class Task {
         this.isCompleted = record.isCompleted;
         this.priority = record.priority as TaskPriority;
         this.dueDate = record.dueDate ? new Date(record.dueDate) : undefined;
+        this.reminders = record.reminders;
         this.updated = new Date(record.updated);
     }
 
@@ -103,6 +114,7 @@ export class Task {
             record.isCompleted,
             record.dueDate ? new Date(record.dueDate) : undefined,
             record.priority as TaskPriority,
+            record.reminders,
             new Date(record.created),
             new Date(record.updated)
         );
