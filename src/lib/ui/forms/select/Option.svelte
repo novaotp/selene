@@ -52,7 +52,7 @@ Examples :
         data-option-disabled={disabled}
         aria-selected={selected}
         class={cn(
-            "relative flex h-full w-full items-center justify-between gap-5 px-[18vw] text-sm dark:bg-zinc-800",
+            "relative flex h-full w-full items-center justify-between gap-5 px-5 text-sm dark:bg-zinc-800",
             disabled ? "cursor-not-allowed dark:text-zinc-500" : "",
             className
         )}

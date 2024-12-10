@@ -91,7 +91,8 @@
         const selectedElement = Array.from(hiddenOptionsDivNode.children).find((child) => {
             return (
                 child.firstElementChild &&
-                child.firstElementChild.hasAttribute("data-option-selected")
+                child.firstElementChild.hasAttribute("data-option-selected") &&
+                child.firstElementChild.getAttribute("data-option-selected") === "true"
             );
         });
 
@@ -121,7 +122,7 @@ Example :
 ```
 -->
 
-<div bind:this={masterNode} class={cn("relative w-full", className)}>
+<div bind:this={masterNode} class={cn("relative", className)}>
     <input {id} {name} {value} type="hidden" />
     <button
         bind:this={triggerButtonNode}
@@ -132,7 +133,10 @@ Example :
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         data-select-value={value}
-        class="relative flex h-[50px] w-full cursor-pointer items-center justify-between gap-5 rounded-2xl px-[18vw] text-sm dark:bg-zinc-800 [&_*]:pointer-events-none"
+        class={cn(
+            "relative flex h-[50px] w-full cursor-pointer items-center justify-between gap-5",
+            "rounded-2xl px-5 text-sm dark:bg-zinc-800 [&_*]:pointer-events-none"
+        )}
     >
         {@html textShown}
     </button>
