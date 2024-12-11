@@ -9,7 +9,8 @@
     import IconDeviceFloppy from "@tabler/icons-svelte/icons/device-floppy";
     import IconTrash from "@tabler/icons-svelte/icons/trash";
     import type { EventHandler } from "svelte/elements";
-    import type { Task, TaskPriority } from "$models/index.svelte";
+    import type { Reminder, Task, TaskPriority } from "$models/index.svelte";
+    import RemindersHandler from "./RemindersHandler.svelte";
 
     interface Props {
         close: () => void;
@@ -27,6 +28,7 @@
             : ""
     );
     let priority = $state<TaskPriority>(task.priority ?? "none");
+    let reminders = $state<Reminder[]>(task.reminders ?? []);
 
     let showDeleteModal = $state(false);
     let isProcessing = $state(false);
@@ -73,7 +75,8 @@
             title: title.trim(),
             description: description.trim(),
             dueDate: finalDueDate,
-            priority: priority ?? "none"
+            priority: priority ?? "none",
+            reminders: reminders
         };
 
         try {
@@ -157,6 +160,7 @@
                 <Select.Option value="urgent">Urgent</Select.Option>
             </Select.Root>
         </Label.Root>
+        <RemindersHandler bind:reminders />
     </form>
 </Modal>
 

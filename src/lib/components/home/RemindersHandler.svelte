@@ -53,43 +53,45 @@
             </Button>
         </div>
         <p>Manage your reminders here.</p>
-        <ul class="relative flex w-full flex-col gap-[10px]">
-            {#each reminders as reminder (reminder.id)}
-                <div class="relative flex h-[50px] w-full items-center gap-[10px]">
-                    <Select.Root bind:value={reminder.type}>
-                        <Select.Option
-                            value="notification"
-                            selected={reminder.type === "notification"}
+        {#if reminders.length > 0}
+            <ul class="relative flex w-full flex-col gap-[10px]">
+                {#each reminders as reminder (reminder.id)}
+                    <div class="relative flex h-[50px] w-full items-center gap-[10px]">
+                        <Select.Root bind:value={reminder.type}>
+                            <Select.Option
+                                value="notification"
+                                selected={reminder.type === "notification"}
+                            >
+                                Notification
+                            </Select.Option>
+                            <Select.Option value="email" selected={reminder.type === "email"}>
+                                Email
+                            </Select.Option>
+                        </Select.Root>
+                        <Input type="number" bind:value={reminder.value} />
+                        <Select.Root bind:value={reminder.unit}>
+                            <Select.Option value="minutes" selected={reminder.unit === "minutes"}>
+                                Minutes
+                            </Select.Option>
+                            <Select.Option value="hours" selected={reminder.unit === "hours"}>
+                                Hours
+                            </Select.Option>
+                            <Select.Option value="days" selected={reminder.unit === "days"}>
+                                Days
+                            </Select.Option>
+                            <Select.Option value="weeks" selected={reminder.unit === "weeks"}>
+                                Weeks
+                            </Select.Option>
+                        </Select.Root>
+                        <Button
+                            onclick={() => removeById(reminder.id)}
+                            class="grid h-10 place-items-center p-0 dark:bg-transparent"
                         >
-                            Notification
-                        </Select.Option>
-                        <Select.Option value="email" selected={reminder.type === "email"}>
-                            Email
-                        </Select.Option>
-                    </Select.Root>
-                    <Input type="number" bind:value={reminder.value} />
-                    <Select.Root bind:value={reminder.unit}>
-                        <Select.Option value="minutes" selected={reminder.unit === "minutes"}>
-                            Minutes
-                        </Select.Option>
-                        <Select.Option value="hours" selected={reminder.unit === "hours"}>
-                            Hours
-                        </Select.Option>
-                        <Select.Option value="days" selected={reminder.unit === "days"}>
-                            Days
-                        </Select.Option>
-                        <Select.Option value="weeks" selected={reminder.unit === "weeks"}>
-                            Weeks
-                        </Select.Option>
-                    </Select.Root>
-                    <Button
-                        onclick={() => removeById(reminder.id)}
-                        class="grid h-10 place-items-center p-0 dark:bg-transparent"
-                    >
-                        <IconX class="size-5 text-white" />
-                    </Button>
-                </div>
-            {/each}
-        </ul>
+                            <IconX class="size-5 text-white" />
+                        </Button>
+                    </div>
+                {/each}
+            </ul>
+        {/if}
     </Modal>
 {/if}

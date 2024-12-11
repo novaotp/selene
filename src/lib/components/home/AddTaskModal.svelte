@@ -53,7 +53,8 @@
             title: title.trim(),
             description: description.trim(),
             dueDate: finalDueDate,
-            priority: priority ?? "none"
+            priority: priority ?? "none",
+            reminders: reminders
         };
 
         try {
