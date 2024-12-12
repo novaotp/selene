@@ -1,0 +1,11 @@
+#!/bin/sh
+
+npx prettier --check .
+prettier_status=$?
+
+if [ $prettier_status -ne 0 ]; then
+    echo -e "\n\t[pre-commit] Prettier found issues. Please fix them before committing.\n"
+    exit 1
+fi
+
+exit 0
