@@ -41,7 +41,7 @@ Examples :
 ```
 -->
 
-<li class="border-bottom relative h-[50px] w-full last:border-none dark:border-zinc-700">
+<li class="relative min-h-[50px] w-full">
     <button
         bind:this={buttonNode}
         type="button"
@@ -52,7 +52,7 @@ Examples :
         data-option-disabled={disabled}
         aria-selected={selected}
         class={cn(
-            "relative flex h-full w-full items-center justify-between gap-5 px-5 text-sm dark:bg-zinc-800",
+            "relative flex min-h-[50px] w-full items-center justify-center gap-5 px-5 text-sm dark:bg-zinc-800",
             disabled ? "cursor-not-allowed dark:text-zinc-500" : "",
             className
         )}

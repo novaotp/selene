@@ -100,7 +100,6 @@
 
         value = selectedElement.firstElementChild!.getAttribute("data-option-value")!;
         textShown = selectedElement.firstElementChild!.innerHTML!;
-        onchange(value);
     });
 </script>
 
@@ -152,7 +151,7 @@ Example :
                 role="listbox"
                 aria-expanded={isOpen}
                 class={cn(
-                    "absolute flex w-full overflow-hidden rounded-2xl shadow-[0_0_4px_8px_rgb(0,0,0,0.1)]",
+                    "absolute z-50 flex max-h-[200px] w-full overflow-scroll rounded-2xl shadow-[0_0_4px_8px_rgb(0,0,0,0.1)]",
                     isBelowHalfOfScreen() ? "bottom-[60px] flex-col-reverse" : "top-[60px] flex-col"
                 )}
             >

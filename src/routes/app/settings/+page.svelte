@@ -7,13 +7,13 @@
     import { Avatar } from "$ui/data-display";
     import { Banner } from "$ui/feedback";
     import { Label, Select } from "$ui/forms";
-    import IconPalette from "@tabler/icons-svelte/icons/palette";
     import IconArrowNarrowLeft from "@tabler/icons-svelte/icons/arrow-narrow-left";
     import IconLogout from "@tabler/icons-svelte/icons/logout";
-    import IconLanguage from "@tabler/icons-svelte/icons/language";
     import IconScript from "@tabler/icons-svelte/icons/script";
-    import type { ComponentType, Snippet } from "svelte";
+    import IconSettings from "@tabler/icons-svelte/icons/settings";
     import { PUBLIC_APP_NAME } from "$env/static/public";
+    import { timeZone, timeZones } from "$stores/timezone.svelte";
+    import type { ComponentType, Snippet } from "svelte";
 
     let { data } = $props();
 
@@ -34,20 +34,13 @@
     );
 
     const tabGroup: Record<string, Tab[]> = {
-        Personalization: [
+        Account: [
             {
-                label: "Appearance",
-                slug: "appearance",
-                description: "Customize the appearance of Selene.",
-                Icon: IconPalette,
-                component: appearance
-            },
-            {
-                label: "Language",
-                slug: "language",
-                description: "Customize the language of Selene.",
-                Icon: IconLanguage,
-                component: language
+                label: "Preferences",
+                slug: "preferences",
+                description: "Customize your preferences.",
+                Icon: IconSettings,
+                component: preferences
             }
         ],
         Other: [
@@ -74,6 +67,12 @@
         Object.values(tabGroup)
             .flatMap((tabs) => tabs)
             .find((tab) => tab.slug === slug);
+
+    const onTimeZoneChange = (value: string) => {
+        // TODO : ask the user if they want to adapt all the datetimes of the existing tasks
+
+        console.log(value);
+    };
 </script>
 
 <svelte:head>
@@ -143,29 +142,30 @@
     </article>
 {/if}
 
-{#snippet appearance()}
+{#snippet preferences()}
     <div class="relative flex h-full w-full flex-col gap-5">
-        <h3>Appearance</h3>
-        <p>Customize the appearance of Selene.</p>
-        <Banner type="info">Light theme coming soon...</Banner>
+        <h3>Preferences</h3>
+        <p>Customize your preferences.</p>
+        <Label.Root class="flex-row items-center justify-between">
+            <Label.Text for="timezone">Time Zone</Label.Text>
+            <Select.Root class="w-40" onchange={onTimeZoneChange}>
+                {#each Object.entries(timeZones) as [label, offset]}
+                    <Select.Option value={offset.toString()} selected={offset === timeZone.offset}>
+                        {label}
+                    </Select.Option>
+                {/each}
+            </Select.Root>
+        </Label.Root>
         <Label.Root class="flex-row items-center justify-between">
             <Label.Text for="theme">Theme</Label.Text>
             <Select.Root class="w-20">
-                <Select.Option value="dark">Dark</Select.Option>
+                <Select.Option value="dark" selected>Dark</Select.Option>
             </Select.Root>
         </Label.Root>
-    </div>
-{/snippet}
-
-{#snippet language()}
-    <div class="relative flex h-full w-full flex-col gap-5">
-        <h3>Language</h3>
-        <p>Customize the language of Selene.</p>
-        <Banner type="info">More language options coming soon...</Banner>
         <Label.Root class="flex-row items-center justify-between">
             <Label.Text for="language">Language</Label.Text>
             <Select.Root class="w-20">
-                <Select.Option value="en">English</Select.Option>
+                <Select.Option value="en" selected>English</Select.Option>
             </Select.Root>
         </Label.Root>
     </div>
