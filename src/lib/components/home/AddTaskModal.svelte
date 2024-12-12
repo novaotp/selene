@@ -1,6 +1,7 @@
 <script lang="ts">
     import { pb } from "$services/pocketbase";
     import { toastManager } from "$stores/toast/index.svelte";
+    import { getUser } from "$contexts/user.svelte";
     import { Button, Input, Label, Select, TextArea } from "$ui/forms";
     import { Backdrop, Modal } from "$ui/feedback";
     import RemindersHandler from "./RemindersHandler.svelte";
@@ -15,6 +16,8 @@
     }
 
     let { close }: Props = $props();
+
+    const userContext = getUser();
 
     let title = $state("");
     let description = $state("");
@@ -50,6 +53,7 @@
         }
 
         const data = {
+            userId: userContext.user.id,
             title: title.trim(),
             description: description.trim(),
             dueDate: finalDueDate,

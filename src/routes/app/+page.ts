@@ -2,7 +2,9 @@ import { pb } from "$services/pocketbase";
 import { Task } from "$models/index.svelte";
 import type { PageLoad } from "./$types";
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ parent }) => {
+    const parentData = await parent();
+
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
 
@@ -13,7 +15,7 @@ export const load: PageLoad = async () => {
         tasks: await pb
             .collection("tasks")
             .getFullList({
-                filter: `dueDate >= '${todayStart.toISOString().replace("T", " ")}' && dueDate <= '${todayEnd.toISOString().replace("T", " ")}'`,
+                filter: `userId = '${parentData.user.id}' && dueDate >= '${todayStart.toISOString().replace("T", " ")}' && dueDate <= '${todayEnd.toISOString().replace("T", " ")}'`,
                 sort: "-created"
             })
             .then((tasks) => tasks.map((t) => Task.fromRecord(t)))
